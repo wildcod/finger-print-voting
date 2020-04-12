@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+}
+
+.image-container{
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.main{
+    background-color: #174F40 !important;
+    color:rgba(255, 255, 255, 0.507) !important;
+    height: 100vh;
+}
+
+.heading{
+    font-size: 100px;
+    color: #ffffff;
+    font-family: 'Merienda', cursive;
+    font-weight: 700;
+}

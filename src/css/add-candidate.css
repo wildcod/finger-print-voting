@@ -1,0 +1,13 @@
+.container{
+    padding: 30px;
+}
+
+.candidate-form{
+    width: 40%;
+    margin : 0 auto
+}
+
+.candidate-btn{
+    background: #de8560 !important;
+    color: #ffffff !important;
+}
