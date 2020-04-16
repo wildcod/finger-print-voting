@@ -8,19 +8,42 @@ const AddCandidate = () => {
     return (
         <div className="container">
             <Segment raised >
-                <Form className="candidate-form">
-                    {
-                        formInput.map(d => (
-                            <Form.Field key={d}>
-                                <label>{d}</label>
-                                <input placeholder={d} />
-                            </Form.Field>
-                        ))
-                    }
-                    <Form.Field>
-                        <label>Upload Photo</label>
-                        <input type="file" />
-                    </Form.Field>
+                <Form>
+                    <Form.Group widths='equal'>
+                        <Form.Input
+                            label='First name'
+                            placeholder='First name'
+                        />
+                        <Form.Input
+                            label='Last name'
+                            placeholder='Last name'
+                        />
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input
+                            label='Address'
+                            placeholder='Address'
+                        />
+                        <Form.Input
+                            label='Mobile No'
+                            placeholder='Mobile No'
+                        />
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input
+                            label='Age'
+                            placeholder='Age'
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Input
+                            label='Upload Photo'
+                            type='file'
+                        />
+                        <div className="image-container">
+
+                        </div>
+                    </Form.Group>
                     <Button type='submit'
                       className="candidate-btn"
                     >Submit</Button>

@@ -1,0 +1,9 @@
+.voter-header{
+    height: 50px;
+    background: #174F40;
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
+    padding : 15px;
+    font-weight: bold;
+}

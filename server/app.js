@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const routes = require('./routes/routes');
+const userRoutes = require('./routes/user');
+const voterRoutes = require('./routes/voterRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 
 app.use(morgan('dev'));
@@ -39,7 +41,9 @@ app.use((req,res,next) => {
     next();
 });
 
-app.use('/voting' , routes);
+app.use('/users' , userRoutes);
+app.use('/voter' , voterRoutes);
+app.use('/admin' , adminRoutes);
 
 
 // for routes not found

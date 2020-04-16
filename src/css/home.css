@@ -7,6 +7,29 @@
 .home-header{
     height: 50px;
     background: #174F40;
+    text-align: end;
+    color: #ffffff;
+    padding : 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-nav-bar{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.home-nav-bar li{
+    display: inline;
+    padding: 10px;
+    margin-left: 35px;
+    cursor: pointer;
+}
+
+.home-nav-bar li:hover{
+   color: #de8560;
 }
 
 .home-main{

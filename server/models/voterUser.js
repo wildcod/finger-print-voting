@@ -33,7 +33,7 @@ const voterUserSchema = mongoose.Schema({
     },
     finger_print : {
         type : String,
-        required : true
+        default : 'finger.jpg'
     }
 });
 

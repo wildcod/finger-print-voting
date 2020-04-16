@@ -2,16 +2,21 @@ import React, {useState} from 'react';
 import Layout from "./Layout";
 import { Button, Dropdown, Form } from 'semantic-ui-react'
 import '../css/login.css';
+import api from '../util/api'
+import axios from 'axios'
 
 const Login = () => {
 
     const [userName , setUserName] = useState('');
     const [password , setPassword] = useState('');
+    const [errorMsg, setErrorMgs] = useState(null);
     const [role , setRole] = useState(1);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
            e.preventDefault();
            console.log('submit', userName , password, role);
+           const res = await axios.post(api('loginUrl'),{userName,password});
+           console.log(res);
     };
 
     return (
@@ -21,7 +26,7 @@ const Login = () => {
                 <Form.Field >
                     <input placeholder='Username' className="form-input"
                            value={userName}
-                           type="email"
+                           type="text"
                            onChange={(e) => setUserName(e.target.value)}/>
                 </Form.Field>
                 <Form.Field >

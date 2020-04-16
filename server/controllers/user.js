@@ -15,7 +15,6 @@ const signup = (req, res, next) => {
         }else {
             const user = new User({
                 _id : mongoose.Types.ObjectId(),
-                name : req.body.name,
                 username : req.body.username,
                 password : hash,
                 role : req.body.role
@@ -81,7 +80,7 @@ const login = (req, res, next) => {
                         },
                         process.env.JWT_KEY,
                         {
-                            expiresIn : '1h'
+                            expiresIn : 900000
                         }
                     );
 
