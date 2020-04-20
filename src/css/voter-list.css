@@ -1,3 +1,11 @@
 .voter-container{
     padding: 20px !important;
 }
+
+.voter-card{
+    width: min-content !important;
+}
+
+.voter-card-image{
+    width: 180px !important;
+}

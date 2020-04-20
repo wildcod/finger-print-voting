@@ -1,3 +1,11 @@
 .candidate-container{
     padding: 20px !important;
 }
+
+.candidate-card{
+    width: min-content !important;
+}
+
+.candidate-card-image {
+    width: 180px !important;
+}

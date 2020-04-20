@@ -1,56 +1,48 @@
 import React from 'react';
+import '../css/election-list.css'
+import {Link} from "react-router-dom";
 
 const ElectionList = () => {
     return (
-        <div>
-            <div className="election-list--card">
-                <div className="election-list-voter-image">
-
-                </div>
-                <div className="election-list-scanner">
-                    Scan Finger
-                </div>
-                <div className="election-list-voter-info">
-                    {
-                        voterData.map(d => (
-                            <div className="election-list-row">
-                                <div className="election-list-key">{d.key}</div>
-                                <div className="election-list-value">{d.default}</div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
+        <div className="election-cards-container">
+            {
+                data.map((d, i) => (
+                    <div className="election-card">
+                        <div className="election-card-heading">
+                            <span>{d.name}</span>
+                        </div>
+                        <div className="election-card-time">
+                            <span>End Date</span>
+                            <span style={{ fontSize : '14px', marginTop : '5px'}}>{d.end_date}</span>
+                        </div>
+                        <div className="election-card-see">
+                            <Link to={`/voter/election/${i}`} >
+                                <p>See more</p>
+                            </Link>
+                        </div>
+                    </div>
+                ))
+            }
         </div>
     );
 };
 
 export default ElectionList;
 
-const voterData = [
+const data = [{
+    name : 'Lok Sabha elections',
+    end_date : '12/11/2020',
+},
     {
-        key : "Name",
-        value : "Sahil Kanojia",
-        default : ''
+        name : 'Municipal Corporation elections',
+        end_date : '12/11/2020',
     },
     {
-        key : "Voter Id",
-        value : "CVDGSFTE34",
-        default : ''
+        name : 'Vidhan Sabha elections',
+        end_date : '12/11/2020',
     },
     {
-        key : "Age",
-        value : "20",
-        default : ''
-    },
-    {
-        key : "Address",
-        value : "chanakaya puri",
-        default : ''
-    },
-    {
-        key : "Mobile",
-        value : "90876543322",
-        default : ''
+        name : 'Metropolitan Council elections',
+        end_date : '12/11/2020',
     }
 ];

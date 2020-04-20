@@ -1,5 +1,5 @@
 const uris = {
-    loginUrl : '/voting/login',
+    loginUrl : '/users/login',
 };
 
 

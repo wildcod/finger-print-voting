@@ -6,10 +6,12 @@ import candidatePhoto1 from "../static/arvind-kejriwal.jpeg";
 const Candidate = () => {
     return (
         <Card.Group className="candidate-container">
-            <Card>
+            <Card className="candidate-card">
                 <Image
-                    wrapped ui={false}
+                    wrapped
                     src={candidatePhoto1}
+                    size="small"
+                    className="candidate-card-image"
                 />
                 <Card.Content>
                     <Card.Header>Arvind Kejriwal</Card.Header>
