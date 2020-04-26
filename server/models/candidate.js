@@ -15,6 +15,14 @@ const candidateSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    party_name : {
+        type : String,
+        required : true
+    },
+    imageUrl : {
+        type : String,
+        required : true
+    },
     photo : {
         type : String,
         required : true

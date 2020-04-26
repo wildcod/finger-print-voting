@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const electionSchema = mongoose.Schema({
 
     _id : mongoose.Schema.Types.ObjectId,
-    topic : {
+    name : {
         type : String,
         required : true,
     },
@@ -11,16 +11,21 @@ const electionSchema = mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId
     }],
     end_date : {
-        type : String,
+        type : Date,
         required : true
     },
     start_date : {
         type : Date,
         required : true
     },
+    election_id : {
+        type : String,
+        required : true,
+    },
     candidates : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Candidates',
+        required : true
     }]
 });
 

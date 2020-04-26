@@ -16,14 +16,18 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
            e.preventDefault();
+        setErrorMgs(null);
            console.log('submit', userName , password);
-           const res = await axios.post(api('loginUrl'),{username : userName,password});
-           if(res.status > 400){
-              return setErrorMgs('Something Wrong');
+           try{
+               const res = await axios.post(api('loginUrl'),{username : userName,password});
+               console.log('Response',res);
+               setData(res.data);
+               setLoginStatus(true);
+           }catch(e){
+               console.log('Error',e);
+               setLoginStatus(false);
+               setErrorMgs('Not Authorized User');
            }
-           console.log('Response',res);
-           setData(res.data);
-           setLoginStatus(true);
     };
 
     useEffect(() => {
@@ -54,11 +58,6 @@ const Login = (props) => {
                            type="password"
                     />
                 </Form.Field>
-                {/*<Form.Field>*/}
-                {/*    <Dropdown clearable options={options} selection className="form-input"*/}
-                {/*              onChange={(e, data) => setRole(data.value)}*/}
-                {/*              defaultValue={1}/>*/}
-                {/*</Form.Field>*/}
                 <Button type='submit' className="form-input login-btn">Submit</Button>
             </Form>
                 {

@@ -1,5 +1,10 @@
 const uris = {
     loginUrl : '/users/login',
+    addCandidate : '/admin/add-candidate',
+    getCandidates : '/admin/get-candidates',
+    addElection : '/admin/add-election',
+    getElections : '/admin/get-elections',
+    getElection : '/admin/get-election',
 };
 
 

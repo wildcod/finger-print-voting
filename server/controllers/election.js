@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 const Election = require('../models/election');
 
 const addElection = (req, res, next) => {
-    const { topic, end_date , candidates} = req.body;
+    console.log('Data',req.body.data);
+    const { name, end_date , candidates, electionId} = req.body.data;
     const election = new Election({
         _id : mongoose.Types.ObjectId(),
-        topic : topic,
+        name : name,
+        election_id : electionId,
         end_date : new Date(end_date),
         start_date : new Date(),
         candidates : candidates
@@ -40,8 +42,7 @@ const getAllElection = (req, res, next) => {
                     error : err
                 })
             })
-
-    }
+    };
 const getElection = (req, res, next) => {
     Election.findById({ _id : req.params.electionId})
         .populate('candidates')

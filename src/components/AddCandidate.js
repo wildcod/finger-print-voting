@@ -1,29 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react'
 import '../css/add-candidate.css'
+import axios from "axios";
+import api from "../util/api";
 
 const AddCandidate = () => {
     const [imagePath , setImagePath ] = useState(null);
+    const [imageFile , setImageFile ] = useState(null);
     const [formData , setFormData ] = useState({
-        firstName : '',
-        lastName : '',
-        address : '',
-        mobile : '',
-        age : '',
-        file : ''
+        firstName : null,
+        lastName : null,
+        address : null,
+        partyName : null,
+        age : null
     });
-    console.log('image',imagePath);
 
     const handleImagePath = (e) => {
+        const file = e.target.files[0];
+        setImageFile(file);
         let reader = new FileReader();
-        let file = e.target.files[0];
-        console.log(file,reader);
+        console.log(formData);
         reader.onloadend = () => {
             setImagePath(reader.result)
-            setFormData({
-                ...formData,
-                file
-            })
+            console.log('25',reader.result)
         };
         reader.readAsDataURL(file)
     };
@@ -36,16 +35,32 @@ const AddCandidate = () => {
         })
     };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const error = {
-            first_name: formData.firstName.length > 0 ? '' : 'Please enter first name',
-            last_name: formData.lastName.length > 0 ? '' : 'Please enter last name',
-            address: formData.address.length > 4 ? '' : 'Please enter address',
-            mobile : formData.mobile.length == 10 ? '' : 'Please enter a valid mobile no'
-        };
 
-        console.log(formData);
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        const formInputData = new FormData();
+        console.log(formData, imageFile);
+        const candidateData = {
+            name : formData.firstName + ' ' + formData.lastName,
+            address : formData.address,
+            partyName : formData.partyName,
+            age : formData.age,
+            photo : imagePath
+        };
+        formInputData.set('candidate_data', JSON.stringify(candidateData));
+        formInputData.append('file', imageFile);
+        try{
+            const res = await axios({
+                method: 'post',
+                url: api('addCandidate'),
+                data: formInputData,
+                headers: {'Content-Type': 'multipart/form-data' }
+            });
+            alert("Candidate Created Successfully")
+        }catch(e){
+            alert("Something Went Wrong")
+            console.log('Error',e);
+        }
     };
 
     return (
@@ -59,6 +74,7 @@ const AddCandidate = () => {
                             value={formData.firstName}
                             onChange={inputChangeHandler}
                             placeholder='First name'
+                            required
                         />
                         <Form.Input
                             label='Last name'
@@ -66,6 +82,7 @@ const AddCandidate = () => {
                             value={formData.lastName}
                             onChange={inputChangeHandler}
                             placeholder='Last name'
+                            required
                         />
                     </Form.Group>
                     <Form.Group widths='equal'>
@@ -75,22 +92,26 @@ const AddCandidate = () => {
                             value={formData.address}
                             onChange={inputChangeHandler}
                             placeholder='Address'
+                            required
                         />
                         <Form.Input
-                            label='Mobile No'
-                            name="mobile"
-                            value={formData.mobile}
+                            label='Party Name'
+                            name="partyName"
+                            value={formData.partName}
                             onChange={inputChangeHandler}
-                            placeholder='Mobile No'
+                            placeholder='Party Name'
+                            required
                         />
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input
                             label='Age'
                             name="age"
+                            type="number"
                             value={formData.age}
                             onChange={inputChangeHandler}
                             placeholder='Age'
+                            required
                         />
                     </Form.Group>
                     <Form.Group>
@@ -98,6 +119,7 @@ const AddCandidate = () => {
                             label='Upload Photo'
                             type='file'
                             onChange={(e) => handleImagePath(e)}
+                            required
                         />
                         <div className="image-container">
                             {
