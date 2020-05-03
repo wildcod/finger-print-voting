@@ -17,12 +17,6 @@ const voterUserSchema = mongoose.Schema({
         unique: true,
         match: /^((\+){0,1}91(\s){0,1}(\-){0,1}(\s){0,1}){0,1}98(\s){0,1}(\-){0,1}(\s){0,1}[1-9]{1}[0-9]{7}$/
     },
-    email : {
-        type : String,
-        required : true,
-        unique : true,
-        match : /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-    },
     age : {
         type : Number,
         required : true
@@ -33,7 +27,7 @@ const voterUserSchema = mongoose.Schema({
     },
     finger_print : {
         type : String,
-        default : 'finger.jpg'
+        required : true
     }
 });
 

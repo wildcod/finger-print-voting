@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react'
-import '../css/add-candidate.css'
-import axios from "axios";
-import api from "../util/api";
+import '../../../css/adminProtalStyle/add-candidate.css'
+import HomeLayout from "../../Layout/HomeLayout";
+import { addCandidate } from '../../../redux/actions/adminAction'
+import { clearErrors } from '../../../redux/actions/errorAction'
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
 
-const AddCandidate = () => {
+const AddCandidate = ({ addCandidate, error, clearErrors}) => {
     const [imagePath , setImagePath ] = useState(null);
     const [imageFile , setImageFile ] = useState(null);
     const [formData , setFormData ] = useState({
@@ -39,7 +42,6 @@ const AddCandidate = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         const formInputData = new FormData();
-        console.log(formData, imageFile);
         const candidateData = {
             name : formData.firstName + ' ' + formData.lastName,
             address : formData.address,
@@ -49,21 +51,15 @@ const AddCandidate = () => {
         };
         formInputData.set('candidate_data', JSON.stringify(candidateData));
         formInputData.append('file', imageFile);
-        try{
-            const res = await axios({
-                method: 'post',
-                url: api('addCandidate'),
-                data: formInputData,
-                headers: {'Content-Type': 'multipart/form-data' }
-            });
-            alert("Candidate Created Successfully")
-        }catch(e){
-            alert("Something Went Wrong")
-            console.log('Error',e);
-        }
+        await addCandidate(formInputData);
+        alert('Candidate Add Successfully')
     };
-
+    if(error.status){
+        alert('Something went wrong')
+        clearErrors()
+    }
     return (
+        <HomeLayout heading="Add Candidate">
         <div className="container">
             <Segment raised >
                 <Form onSubmit={submitHandler}>
@@ -133,7 +129,19 @@ const AddCandidate = () => {
                 </Form>
             </Segment>
         </div>
+        </HomeLayout>
     );
 };
+const mapStateToProps = state => ({
+    error : state.errorStore,
+});
 
-export default AddCandidate;
+const mapActionToProps = () => {
+    return {
+        addCandidate,
+        clearErrors
+    }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapActionToProps())(AddCandidate))

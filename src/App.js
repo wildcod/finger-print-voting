@@ -1,34 +1,32 @@
 import React from 'react';
-import Login from "./components/Login";
-import NotFound from "./components/NotFound";
-import AddCandidate from './components/AddCandidate'
-import AddElection from './components/AddElection'
-import AddVoter from './components/AddVoter'
-import Result from './components/Result'
+import Login from "./components/AuthComponents/Login";
+import NotFound from "./components/NotFound/NotFound";
+import AddCandidate from './components/AdminPortal/Candidate/AddCandidate'
+import AddElection from './components/AdminPortal/Election/AddElection'
+import AddVoter from './components/AdminPortal/Voter/AddVoter'
+import Result from './components/Result/Result'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Voter from "./components/Voter";
-import Election from "./components/Election";
-import Candidate from "./components/Candidate";
-import VoterList from "./components/VoterList";
-import ElectionList from "./components/ElectionList";
-import ProtectedRoutes from "./components/protectedRoutes";
-import HomeLayout from "./components/HomeLayout";
+import Voter from "./components/VoterPortal";
+import Election from "./components/AdminPortal/Election/Election";
+import Candidate from "./components/AdminPortal/Candidate/Candidate";
+import VoterList from "./components/AdminPortal/Voter/VoterList";
+import ElectionList from "./components/AdminPortal/Election/ElectionList";
+import ProtectedRoutes from "./components/ProtectedRoutes/protectedRoutes";
 
 const App = () => {
   return <>
             <Router>
               <Switch>
                 <Route exact path="/" component={Login}/>
-                {/*<Route exact path="/" render={() => <HomeLayout heading="Home"><Home/></HomeLayout>}/>*/}
-                <Route path="/result" render={() => <HomeLayout heading="Result"><Result/></HomeLayout>} />
-                <Route path="/election-list" render={() => <HomeLayout heading="Elections"><ElectionList/></HomeLayout>} />
-                <Route exact path="/voter" render={() => <Voter/>} />
-                <Route path="/voter/election/:id" render={() => <Election/>} />
-                <ProtectedRoutes path="/addCandidate" heading="Add Candidate" component={AddCandidate}/>
-                <ProtectedRoutes path="/addVoter"  heading="Add Voter" component={AddVoter}/>
-                <ProtectedRoutes path="/addElection"  heading="Add Election" component={AddElection} />
-                <ProtectedRoutes path="/voter-list" heading="Voters" component={VoterList}/>
-                <ProtectedRoutes path="/candidate-list"  heading="Candidates" component={Candidate} />
+                <Route path="/result" component={Result} />
+                <Route path="/election-list" component={ElectionList} />
+                <Route exact path="/voter" component={Voter} />
+                <Route path="/voter/election/:id" component={Election} />
+                <ProtectedRoutes path="/addCandidate"  component={AddCandidate}/>
+                <ProtectedRoutes path="/addVoter"  component={AddVoter}/>
+                <ProtectedRoutes path="/addElection"  component={AddElection} />
+                <ProtectedRoutes path="/voter-list"  component={VoterList}/>
+                <ProtectedRoutes path="/candidate-list"  component={Candidate} />
                 <Route component={NotFound} />
               </Switch>
             </Router>

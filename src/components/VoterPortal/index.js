@@ -1,6 +1,6 @@
 import React from 'react';
 import CastVote from "./CastVote";
-import '../css/voter.css'
+import '../../css/voterPortalStyle/voter.css'
 import {withRouter} from "react-router";
 
 const Voter = props => {

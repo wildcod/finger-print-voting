@@ -9,7 +9,17 @@ const storage = multer.diskStorage({
     }
 });
 
+const storage2 = multer.diskStorage({
+    destination : function(req,file,cb){
+        cb(null,'dataset/')
+    },
+    filename : function(eq,file,cb){
+        cb(null, file.originalname)
+    }
+});
+
 const upload = multer({ storage : storage});
+const upload2 = multer({ storage : storage2});
 
 function randomString() {
     let length = 10;
@@ -29,11 +39,16 @@ function generatePassword() {
     return retVal;
 }
 
-console.log(generatePassword())
+const arr = [
+    ''
+]
+
+
 
 
 module.exports  = {
     upload,
+    upload2,
     randomString,
     generatePassword
 };

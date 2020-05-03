@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import api from "../util/api";
+import api from "../../util/api";
+import HomeLayout from "../Layout/HomeLayout";
 
 const Result = () => {
     const [data, setData] = useState(null)
@@ -20,9 +21,9 @@ const Result = () => {
     },[]);
 
     return (
-        <div>
+        <HomeLayout heading="Result">
 
-        </div>
+        </HomeLayout>
     );
 };
 

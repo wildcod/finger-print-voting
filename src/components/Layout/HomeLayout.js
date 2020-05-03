@@ -1,6 +1,6 @@
 import React from 'react';
-import '../css/home.css'
-import SideBar from './common/SideBar';
+import '../../css/home.css'
+import SideBar from '../common/SideBar';
 import MainLayout from "./MainLayout";
 import {Link} from "react-router-dom";
 

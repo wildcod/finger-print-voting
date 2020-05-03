@@ -1,6 +1,5 @@
 import React from 'react';
-import '../css/layout.css'
-import url from '../static/voter.png'
+import '../../css/authStyle/layout.css'
 
 const Layout = props => {
     return (

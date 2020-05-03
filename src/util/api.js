@@ -5,6 +5,10 @@ const uris = {
     addElection : '/admin/add-election',
     getElections : '/admin/get-elections',
     getElection : '/admin/get-election',
+    addVoter : '/voter/add-voter',
+    voterAuthentication : '/admin/voter-authentication',
+    castVote : '/admin/cast-vote',
+    getVoters : '/voter/get-voters'
 };
 
 

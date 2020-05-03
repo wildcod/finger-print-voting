@@ -1,19 +1,20 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'
-import HomeLayout from "./HomeLayout";
+import {initiateLogin} from "../../redux/actions/authAction";
+import {clearErrors} from "../../redux/actions/errorAction";
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
 
 
-const ProtectedRoutes = ({ component : Component , ...rest}) => {
-    const role= JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).role : '';
-    console.log('role',role);
+function ProtectedRoutes({ component : Component,loggedIn , ...rest}) {
     return (
         <Route
             {...rest}
             render={props => {
-                if(role === 'admin'){
-                    return <HomeLayout {...rest}>
-                              <Component  {...props}/>
-                           </HomeLayout>
+                console.log(loggedIn)
+                if(loggedIn){
+
+                    return <Component {...props} />
                 }
                 else{
                     return <Redirect to={
@@ -29,6 +30,11 @@ const ProtectedRoutes = ({ component : Component , ...rest}) => {
             }}
         />
     );
-};
+}
 
-export default ProtectedRoutes;
+const mapStateToProps = state => ({
+    loggedIn: state.authStore.loggedIn
+});
+
+
+export default withRouter(connect(mapStateToProps, null)(ProtectedRoutes))

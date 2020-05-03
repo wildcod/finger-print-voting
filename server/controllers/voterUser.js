@@ -6,23 +6,23 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
 const addVoter = (req, res, next) => {
-    const { name, address, mobile, email, age } = req.body;
-
+    const { name, address, mobile, age } = JSON.parse(req.body.voter_data);
+    console.log(req.body.voter_data, req.files)
     const voter = new VoterUser({
         _id : new mongoose.Types.ObjectId(),
         name : name,
         address : address,
         mobile : mobile,
-        email : email,
         age : age,
-        photo : req.file.originalname
+        photo : req.files[0].originalname,
+        finger_print: req.files[1].originalname
     });
 
     voter.save()
         .then(result => {
             const username = randomString();
             const password = generatePassword();
-
+            console.log(username, password);
             bcrypt.hash(password, 10, function(err, hash) {
                 if(err){
                     return res.status(500).json({
@@ -61,7 +61,8 @@ const addVoter = (req, res, next) => {
 };
 
 const getVoters = (req, res, next) => {
-    User.find()
+    VoterUser.find()
+        .select("_id name address mobile age")
         .exec()
         .then(voter => {
             const count = voter.length;

@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react'
-import axios from "axios";
-import api from "../util/api";
+import HomeLayout from "../../Layout/HomeLayout";
+import {fetchCandidates, addElection } from "../../../redux/actions/adminAction";
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
+import {clearErrors} from "../../../redux/actions/errorAction";
 
 const options = [
     { key: 'one', text: '1', value: 1 },
@@ -9,53 +12,40 @@ const options = [
     { key: 'three', text: '3', value: 3 },
 ];
 
-const AddElection = () => {
+const AddElection = ({ fetchCandidates, error, candidates, addElection }) => {
     const [noOfCandidates, setNoOfCandidates] = useState(0);
     const [electionName, setElectionName] = useState('');
     const [electionId, setElectionId] = useState('');
     const [endDate, setEndDate] = useState('');
     const [candidatesName, setCandidatesName] = useState([]);
-    const [ candidates, setCandidates] = useState(null);
-    const  [ candidateOptions, setCandidateOptions] = useState(null);
 
     useEffect(() => {
-        const fetchCandidates = async () => {
-            try{
-                const res = await axios.get(api('getCandidates'));
-                console.log(res);
-                setCandidates(res.data.candidates);
-                const newCandidateOptions = res.data.candidates.map(d => (
-                    { key : d._id , text : d.name, value : d._id}
-                ));
-                setCandidateOptions(newCandidateOptions);
-            }catch (e) {
-                console.log(e)
-            }
-        };
+        if(candidates && candidates.length) return
         fetchCandidates();
-    },[]);
+    },[candidates]);
+
+    let candidateOptions = null
+    if(candidates && candidates.length){
+         candidateOptions = candidates.map(d => ({ key : d._id , text : d.name, value : d._id}));
+      }
 
     const handleSubmit = async (e) => {
            e.preventDefault();
-           try{
-               const electionData = {
-                   name : electionName,
-                   end_date : endDate ,
-                   candidates : candidatesName,
-                   electionId : electionId
-               };
-               const res = await axios.post(api('addElection'), { data : electionData})
-               console.log('Data 48',res);
-               alert("Election Created Successfully")
-           }catch (error) {
-                console.log(error);
-                throw error
-           }
+           const electionData = {
+               name : electionName,
+               end_date : endDate ,
+               candidates : candidatesName,
+               electionId : electionId
+           };
+        await addElection(electionData);
+        alert('Election Add Successfully')
     };
-
-    console.log('39',candidatesName);
-
+    if(error.status){
+        alert('Something went wrong')
+        clearErrors()
+    }
     return (
+        <HomeLayout heading="Add Election">
         <div className="container">
             <Segment raised >
                 <Form onSubmit={handleSubmit}>
@@ -117,7 +107,21 @@ const AddElection = () => {
                 </Form>
             </Segment>
         </div>
+        </HomeLayout>
     );
 };
 
-export default React.memo(AddElection);
+const mapStateToProps = state => ({
+    error : state.errorStore,
+    candidates: state.candidateStore.candidates
+});
+
+const mapActionToProps = () => {
+    return {
+        fetchCandidates,
+        addElection
+    }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapActionToProps())(AddElection))
