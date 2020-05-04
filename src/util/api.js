@@ -8,7 +8,8 @@ const uris = {
     addVoter : '/voter/add-voter',
     voterAuthentication : '/admin/voter-authentication',
     castVote : '/admin/cast-vote',
-    getVoters : '/voter/get-voters'
+    getVoters : '/voter/get-voters',
+    getEndElections : '/admin/get-end-elections'
 };
 
 

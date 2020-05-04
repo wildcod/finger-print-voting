@@ -1,30 +1,57 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import api from "../../util/api";
+import React, {useEffect} from 'react';
 import HomeLayout from "../Layout/HomeLayout";
+import { fetchEndElection } from "../../redux/actions/adminAction";
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
+import moment from "moment";
+import {Link} from "react-router-dom";
+import VoterLayout from "../Layout/VoterLayout";
 
-const Result = () => {
-    const [data, setData] = useState(null)
-
+const Result = ({ fetchEndElection , elections, role}) => {
     useEffect(() => {
-        try{
-            const getElections = async () => {
-                const res = await axios.get(api('getElections'));
-                setData(res.data);
-                console.log('Data 14',res);
-            };
-            getElections();
-        }catch (error) {
-            console.log(error);
-            throw error
-        }
+        fetchEndElection()
     },[]);
-
+    const Wrapper = (p) => role === 'admin' ? <HomeLayout heading="Elections">{p.children}</HomeLayout> :
+         <VoterLayout>{p.children}</VoterLayout>
     return (
-        <HomeLayout heading="Result">
-
-        </HomeLayout>
+        <Wrapper>
+            <div className="election-cards-container">
+                {
+                    elections && elections.map((d, i) => (
+                        <div className="election-card">
+                            <div className="election-card-heading">
+                                <span>{d.name + ' Election'}</span>
+                            </div>
+                            <div className="election-card-time">
+                                <span>End Date</span>
+                                <span style={{ fontSize : '14px', marginTop : '5px'}}>{moment(d.end_date).utc().format("DD-MM-YYYY").toString()}</span>
+                            </div>
+                            <div className="election-status">
+                                  <span style={{ color : 'red'}}>CLOSED</span>
+                            </div>
+                            <div className="election-card-see">
+                                <Link to={`/result/${d._id}`} >
+                                    <p>See Result</p>
+                                </Link>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </Wrapper>
     );
 };
 
-export default Result;
+const mapStateToProps = state => ({
+    elections: state.electionStore.closedElections,
+    role: state.authStore.role
+});
+
+const mapActionToProps = () => {
+    return {
+        fetchEndElection
+    }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapActionToProps())(Result))

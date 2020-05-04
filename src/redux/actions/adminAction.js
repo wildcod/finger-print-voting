@@ -8,7 +8,12 @@ import {
     ADD_CANDIDATE_SUCCESS,
     REQUEST_ADD_VOTER,
     ADD_VOTER_SUCCESS,
-    REQUEST_ADD_ELECTION, ADD_ELECTION_SUCCESS, SET_VOTER, START_VOTER_FETCH, END_VOTER_FETCH
+    REQUEST_ADD_ELECTION,
+    ADD_ELECTION_SUCCESS,
+    SET_VOTER,
+    START_VOTER_FETCH,
+    END_VOTER_FETCH,
+    SET_END_ELECTIONS
 } from '../types';
 import {returnErrors} from "./errorAction";
 import axios from "axios";
@@ -95,6 +100,7 @@ export const addCandidate = (formInputData) => async(dispatch) => {
                 status : false
             }
         })
+        return res;
     }catch(e){
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ADD_CANDIDATE_ERROR')
@@ -123,6 +129,7 @@ export const addVoter = (formInputData) => async(dispatch) => {
                 status : false
             }
         })
+        return res;
     }catch(e){
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ADD_VOTER_ERROR')
@@ -146,9 +153,27 @@ export const addElection = (electionData) => async(dispatch) => {
                 status : false
             }
         })
+        return res
     }catch(e){
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ADD_ELECTION_ERROR')
+        );
+    }
+}
+
+export const fetchEndElection = () => async(dispatch) => {
+    try{
+        const { data } = await axios.get(api('getEndElections'))
+        console.log(data)
+        dispatch({
+            type : SET_END_ELECTIONS,
+            payload : {
+                closedElections : data.election
+            }
+        })
+    }catch(e){
+        dispatch(
+            returnErrors(e.response.data, e.response.status, 'END_ELECTIONS_ERROR')
         );
     }
 }

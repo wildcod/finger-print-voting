@@ -11,7 +11,6 @@ function ProtectedRoutes({ component : Component,loggedIn , ...rest}) {
         <Route
             {...rest}
             render={props => {
-                console.log(loggedIn)
                 if(loggedIn){
 
                     return <Component {...props} />

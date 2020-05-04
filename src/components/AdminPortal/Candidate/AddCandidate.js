@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { Segment, Form, Button } from 'semantic-ui-react'
+import {Segment, Form, Button } from 'semantic-ui-react'
 import '../../../css/adminProtalStyle/add-candidate.css'
 import HomeLayout from "../../Layout/HomeLayout";
 import { addCandidate } from '../../../redux/actions/adminAction'
 import { clearErrors } from '../../../redux/actions/errorAction'
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import LoaderContainer from "../../common/Loader";
 
-const AddCandidate = ({ addCandidate, error, clearErrors}) => {
+const AddCandidate = ({ addCandidate, requestingAddCandidate}) => {
     const [imagePath , setImagePath ] = useState(null);
     const [imageFile , setImageFile ] = useState(null);
     const [formData , setFormData ] = useState({
@@ -46,19 +47,20 @@ const AddCandidate = ({ addCandidate, error, clearErrors}) => {
             name : formData.firstName + ' ' + formData.lastName,
             address : formData.address,
             partyName : formData.partyName,
-            age : formData.age,
-            photo : imagePath
+            age : formData.age
         };
         formInputData.set('candidate_data', JSON.stringify(candidateData));
         formInputData.append('file', imageFile);
-        await addCandidate(formInputData);
-        alert('Candidate Add Successfully')
+        const res = await addCandidate(formInputData);
+        if(res){
+            alert('Candidate Added Successfully')
+        }
+        else{
+            alert('Something went wrong')
+        }
     };
-    if(error.status){
-        alert('Something went wrong')
-        clearErrors()
-    }
     return (
+        <>
         <HomeLayout heading="Add Candidate">
         <div className="container">
             <Segment raised >
@@ -130,10 +132,15 @@ const AddCandidate = ({ addCandidate, error, clearErrors}) => {
             </Segment>
         </div>
         </HomeLayout>
+            {
+                requestingAddCandidate && <LoaderContainer/>
+            }
+      </>
     );
 };
 const mapStateToProps = state => ({
     error : state.errorStore,
+    requestingAddCandidate : state.candidateStore.requestingAddCandidate
 });
 
 const mapActionToProps = () => {

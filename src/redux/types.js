@@ -27,6 +27,8 @@ export const REQUEST_ADD_VOTER =  'request_add_voter'
 export const ADD_VOTER_SUCCESS =  'add_voter_success'
 export const START_VOTER_FETCH =  'start_voter_fetch'
 export const END_VOTER_FETCH =  'end_voter_fetch'
+export const SET_CUR_VOTER =  'set_cur_voter'
+export const CAST_VOTE =  'cast_vote'
 
 // candidates
 export const SET_CANDIDATES =  'set_candidates'
@@ -34,4 +36,5 @@ export const CLEAR_CANDIDATES =  'clear_candidates'
 export const ADD_CANDIDATE =  'add_candidate'
 export const REQUEST_ADD_CANDIDATE =  'request_add_candidate'
 export const ADD_CANDIDATE_SUCCESS =  'add_candidate_success'
+export const SET_END_ELECTIONS =  'set_end_elections'
 

@@ -2,18 +2,25 @@ import React, {useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 import { Button, Card, Image } from 'semantic-ui-react'
 import '../../../css/adminProtalStyle/election.css'
-import axios from "axios";
-import api from '../../../util/api';
-import { fetchVoterDetails } from "../../../redux/actions/voterAction";
+import { fetchVoterDetails, castVote } from "../../../redux/actions/voterAction";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-const notInclude = ['_id', 'finger_print', '__v', 'photo']
+const notInclude = ['_id', 'finger_print', '__v', 'photo', 'voted_elections']
 
-const Election = ({ username, fetchVoterDetails, electionList }) => {
+const Election = ({
+      username,
+      fetchVoterDetails,
+      electionList,
+      castVote,
+      currentVoter,
+      voterVerifiedStatus,
+      votedElections,
+      history
+}) => {
     const { id } = useParams();
     const [ finger , setFinger ] = useState(null);
     const candidates = electionList.filter(f => f._id === id)[0].candidates
-    console.log(candidates)
+     console.log(voterVerifiedStatus)
     const changeHandler = (e) => {
         setFinger(e.target.files[0]);
     }
@@ -22,80 +29,92 @@ const Election = ({ username, fetchVoterDetails, electionList }) => {
         console.log(username, finger)
         formInputData.set('username', username);
         formInputData.append('finger_print', finger);
-        await fetchVoterDetails(formInputData);
+       const res = await fetchVoterDetails(formInputData);
+       if(res.message === 'verified'){
+           alert('Finger Print Match')
+       }else{
+           alert('Not Match')
+       }
     }
 
-    const castVote = async(candidateId) => {
-        try{
-            const res = await axios.post(api('castVote'),{candidateId : candidateId, id : id});
-            console.log('Response',res);
-            window.localStorage.setItem('cast','true');
-        }catch(e){
-           alert('Something Went wrong')
+    const castVoteHandler = async(candidateId) => {
+        const res = castVote(candidateId,id,currentVoter._id);
+        if(res){
+            history.push('/voter')
+        }else{
+            alert('Something Went Wrong')
         }
     }
 
+
     return (
         <div className="election-container">
-            <div className="election-card-1">
-                <div className="election-voter-image">
-                    <input type="file" name="finger_print" onChange={changeHandler}/>
-                </div>
-                <div className="election-scanner" onClick={submitHandler}>
-                    Scan Finger
-                </div>
-                <div className="election-voter-info">
-                    {/*{*/}
-                    {/*   userData && Object.entries(userData).map(d => {*/}
+                    <div className="election-card-1">
+                    <div className="election-voter-image">
+                        <input type="file" name="finger_print" onChange={changeHandler}/>
+                    </div>
+                    <div className="election-scanner" onClick={submitHandler}>
+                        Scan Finger
+                    </div>
+                    <div className="election-voter-info">
+                        {
+                            currentVoter && Object.entries(currentVoter).map(d => {
 
-                    {/*     return notInclude.includes(d[0]) ?*/}
-                    {/*           null*/}
-                    {/*      : <div className="election-row">*/}
-                    {/*           <div className="election-key">{d[0]}</div>*/}
-                    {/*           <div className="election-value">{d[1]}</div>*/}
-                    {/*       </div>*/}
-                    {/*   })*/}
-                    {/*}*/}
+                                return notInclude.includes(d[0]) ?
+                                    null
+                                    : <div className="election-row">
+                                        <div className="election-key">{d[0]}</div>
+                                        <div className="election-value">{d[1]}</div>
+                                    </div>
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
-            <div className="election-card-1 election-card-2">
+                <div className="election-card-1 election-card-2">
                 <p>Candidates</p>
                 <Card.Group className="election-candidate-container">
-                    {
-                       candidates && candidates.length > 0 && (
-                            candidates.map(d => (
-                                <Card className="election-candidate-card" key={d._id}>
-                                    <Image
-                                        wrapped
-                                        src={d.photo}
-                                        size="small"
-                                        className="election-candidate-card-image"
-                                    />
-                                    <Card.Content>
-                                        <Card.Header>{d.name}</Card.Header>
-                                        <Card.Description>{d.party_name}</Card.Description>
-                                        <Button basic color='green' onClick={() => castVote(d._id)}>
-                                            Cast Vote
+                {
+                    candidates && candidates.length > 0 && (
+                        candidates.map(d => (
+                            <Card className="election-candidate-card" key={d._id}>
+                                <Image
+                                    wrapped
+                                    src={`/${d.imageUrl.split('/')[1]}`}
+                                    size="small"
+                                    className="election-candidate-card-image"
+                                />
+                                <Card.Content>
+                                    <Card.Header>{d.name}</Card.Header>
+                                    <Card.Description>{d.party_name}</Card.Description>
+                                    <Button
+                                        color='green'
+                                        onClick={() => castVoteHandler(d._id)}
+                                        disabled={!voterVerifiedStatus}
+                                    >
+                                        Cast Vote
                                     </Button>
-                                    </Card.Content>
-                                </Card>
-                            ))
-                        )
-                    }
+                                </Card.Content>
+                            </Card>
+                        ))
+                    )
+                }
                 </Card.Group>
-            </div>
+                </div>
         </div>
     );
 };
 
 const mapStateToProps = state => ({
     username : state.authStore.username,
-    electionList : state.electionStore.electionList
+    electionList : state.electionStore.electionList,
+    currentVoter : state.voterStore.currentVoter,
+    voterVerifiedStatus : state.voterStore.voterVerifiedStatus
 });
 
 const mapActionToProps = () => {
     return {
-        fetchVoterDetails
+        fetchVoterDetails,
+        castVote
     }
 }
 

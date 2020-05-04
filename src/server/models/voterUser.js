@@ -28,7 +28,10 @@ const voterUserSchema = mongoose.Schema({
     finger_print : {
         type : String,
         required : true
-    }
+    },
+    voted_elections : [{
+        type : String
+    }]
 });
 
 module.exports = mongoose.model('VoterUser' ,voterUserSchema);

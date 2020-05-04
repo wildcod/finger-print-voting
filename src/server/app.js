@@ -13,6 +13,8 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/uploads'));
+app.use(express.static(__dirname + '/dataset'));
 
 mongoose.connect('mongodb+srv://sahilkanojia:'+
     process.env.Mongo_Atlas_PW +

@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import { Segment, Form, Button } from 'semantic-ui-react'
+import React, {useEffect, useState} from 'react';
+import { Segment, Form, Button, TransitionablePortal, Header } from 'semantic-ui-react'
 import '../../../css/adminProtalStyle/add-voter.css'
 import HomeLayout from "../../Layout/HomeLayout";
 import {addVoter} from "../../../redux/actions/adminAction";
 import { clearErrors} from "../../../redux/actions/errorAction";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import LoaderContainer from "../../common/Loader";
 
 
-const AddVoter = ({ addVoter, error}) => {
+const AddVoter = ({ addVoter, requestingAddVoter}) => {
     const [formData , setFormData ] = useState({
         firstName : null,
         lastName : null,
@@ -30,6 +31,7 @@ const AddVoter = ({ addVoter, error}) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        clearErrors();
         const formInputData = new FormData();
         console.log(formData);
         const voterData = {
@@ -41,15 +43,18 @@ const AddVoter = ({ addVoter, error}) => {
         formInputData.set('voter_data', JSON.stringify(voterData));
         formInputData.append('image', formData.photo);
         formInputData.append('image', formData.fingerPrint);
-       await addVoter(formInputData)
-        alert('Voter Add Successfully')
+      const res = await addVoter(formInputData)
+        if(res){
+            alert('Voter Added Successfully')
+        }
+        else{
+            alert('Something went wrong')
+        }
     };
 
-    if(error.status){
-        alert('Something went wrong')
-        clearErrors();
-    }
+
     return (
+        <>
         <HomeLayout heading="Add Voter">
         <div className="container">
             <Segment raised >
@@ -126,11 +131,16 @@ const AddVoter = ({ addVoter, error}) => {
             </Segment>
         </div>
         </HomeLayout>
+            {
+                requestingAddVoter && <LoaderContainer/>
+            }
+        </>
     );
 };
 
 const mapStateToProps = state => ({
     error : state.errorStore,
+    requestingAddVoter : state.voterStore.requestingAddVoter
 });
 
 const mapActionToProps = () => {

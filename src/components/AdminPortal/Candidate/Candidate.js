@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 const Candidate = ({ candidates, fetchCandidates }) => {
     useEffect(() => {
         fetchCandidates();
-    },)
+    },[])
     return (
         <HomeLayout heading="Candidates">
             <Card.Group className="candidate-container">
@@ -19,7 +19,7 @@ const Candidate = ({ candidates, fetchCandidates }) => {
                             <Card className="candidate-card" key={d._id}>
                                 <Image
                                     wrapped
-                                    src={d.photo}
+                                    src={d.imageUrl.split('/')[1]}
                                     size="small"
                                     className="candidate-card-image"
                                 />

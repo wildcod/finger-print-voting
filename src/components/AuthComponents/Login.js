@@ -6,16 +6,16 @@ import '../../css/authStyle/login.css';
 import { connect } from 'react-redux'
 import { initiateLogin } from '../../redux/actions/authAction'
 import { clearErrors } from '../../redux/actions/errorAction'
-
+import LoaderContainer from "../common/Loader";
 
 const Login = ({
    initiateLogin,
    history,
    loggedIn,
-   errorMsg,
    role,
    clearErrors,
-   status
+   status,
+   requestingLogin
 }) => {
 
     const [userName , setUserName] = useState('');
@@ -37,6 +37,7 @@ const Login = ({
     },[loggedIn]);
 
     return (
+        <>
         <Layout>
             <div className="form-container">
             <Form className="form-container-main" onSubmit={handleSubmit}>
@@ -60,12 +61,17 @@ const Login = ({
                 }
             </div>
         </Layout>
+            {
+               requestingLogin && <LoaderContainer/>
+            }
+        </>
     );
 };
 
 const mapStateToProps = state => ({
     loggedIn: state.authStore.loggedIn,
     role: state.authStore.role,
+    requestingLogin: state.authStore.requestingLogin,
     errorMsg: state.errorStore.msg,
     status: state.errorStore.status,
 });

@@ -3,14 +3,15 @@ const cp = require('child_process')
 const fs = require('fs');
 
 const voterAuthentication = async (req, res, next) => {
-    console.log(req.body);
+    console.log(req.file);
     User.find({ username : req.body.username })
         .populate('voter')
         .exec()
         .then(voter => {
             if(voter.length) {
                 const originalFingerPrint = voter[0].voter.finger_print;
-                const pythonProcess = cp.spawn('python3', ['./run2.py', originalFingerPrint , 'finger_print.txt'])
+                const uploadedFingerPrint = req.file.originalname;
+                const pythonProcess = cp.spawn('python3', ['./run2.py', originalFingerPrint , uploadedFingerPrint])
                 pythonProcess.stdout.setEncoding('utf-8');
                 pythonProcess.stderr.on('end', (data) => {
                     fs.readFile('output_pred.txt', 'utf8', function(err, data) {

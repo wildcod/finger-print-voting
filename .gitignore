@@ -4,9 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
-/server/node_modules
-/server/package.json
-/server/nodemon.json
+/src/server/node_modules
+/src/server/package.json
+/src/server/nodemon.json
 
 # testing
 /coverage

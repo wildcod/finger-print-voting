@@ -12,21 +12,25 @@ import Candidate from "./components/AdminPortal/Candidate/Candidate";
 import VoterList from "./components/AdminPortal/Voter/VoterList";
 import ElectionList from "./components/AdminPortal/Election/ElectionList";
 import ProtectedRoutes from "./components/ProtectedRoutes/protectedRoutes";
+import Profile from "./components/common/Profile";
+import ResultProfile from "./components/Result/ResultProfile";
 
 const App = () => {
   return <>
             <Router>
               <Switch>
                 <Route exact path="/" component={Login}/>
-                <Route path="/result" component={Result} />
+                <Route exact path="/result" component={Result} />
                 <Route path="/election-list" component={ElectionList} />
                 <Route exact path="/voter" component={Voter} />
                 <Route path="/voter/election/:id" component={Election} />
                 <ProtectedRoutes path="/addCandidate"  component={AddCandidate}/>
                 <ProtectedRoutes path="/addVoter"  component={AddVoter}/>
                 <ProtectedRoutes path="/addElection"  component={AddElection} />
-                <ProtectedRoutes path="/voter-list"  component={VoterList}/>
+                <ProtectedRoutes exact path="/voter-list"  component={VoterList}/>
+                <ProtectedRoutes path="/voter-list/profile/:id"  component={Profile}/>
                 <ProtectedRoutes path="/candidate-list"  component={Candidate} />
+                <ProtectedRoutes path="/result/:id"  component={ResultProfile} />
                 <Route component={NotFound} />
               </Switch>
             </Router>

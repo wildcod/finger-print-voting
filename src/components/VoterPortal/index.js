@@ -1,22 +1,13 @@
 import React from 'react';
-import CastVote from "./CastVote";
-import '../../css/voterPortalStyle/voter.css'
-import {withRouter} from "react-router";
+import ElectionList from "../AdminPortal/Election/ElectionList";
+import VoterLayout from "../Layout/VoterLayout";
 
-const Voter = props => {
-    const logoutHandler = () => {
-        window.localStorage.removeItem('userData');
-        props.history.push('/');
-    };
+const Voter = () => {
     return (
-        <div>
-            <div className="voter-header" >
-                <span>Voter</span>
-                <span style={{ cursor : 'pointer'}} onClick={logoutHandler}>Logout</span>
-            </div>
-            <CastVote/>
-        </div>
+        <VoterLayout>
+            <ElectionList/>
+        </VoterLayout>
     );
 };
 
-export default withRouter(Voter);
+export default Voter

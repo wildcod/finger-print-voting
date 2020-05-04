@@ -62,7 +62,7 @@ const addVoter = (req, res, next) => {
 
 const getVoters = (req, res, next) => {
     VoterUser.find()
-        .select("_id name address mobile age")
+        .select("_id name address mobile age photo voted_elections")
         .exec()
         .then(voter => {
             const count = voter.length;

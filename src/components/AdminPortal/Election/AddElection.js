@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { Segment, Form, Button } from 'semantic-ui-react'
+import {Segment, Form, Button, TransitionablePortal, Header} from 'semantic-ui-react'
 import HomeLayout from "../../Layout/HomeLayout";
 import {fetchCandidates, addElection } from "../../../redux/actions/adminAction";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {clearErrors} from "../../../redux/actions/errorAction";
+import LoaderContainer from "../../common/Loader";
 
 const options = [
     { key: 'one', text: '1', value: 1 },
@@ -12,7 +13,7 @@ const options = [
     { key: 'three', text: '3', value: 3 },
 ];
 
-const AddElection = ({ fetchCandidates, error, candidates, addElection }) => {
+const AddElection = ({ fetchCandidates, requestingAddElection, candidates, addElection }) => {
     const [noOfCandidates, setNoOfCandidates] = useState(0);
     const [electionName, setElectionName] = useState('');
     const [electionId, setElectionId] = useState('');
@@ -37,14 +38,16 @@ const AddElection = ({ fetchCandidates, error, candidates, addElection }) => {
                candidates : candidatesName,
                electionId : electionId
            };
-        await addElection(electionData);
-        alert('Election Add Successfully')
+        const res = await addElection(electionData);
+        if(res){
+            alert('Election Added Successfully')
+        }
+        else{
+            alert('Something went wrong')
+        }
     };
-    if(error.status){
-        alert('Something went wrong')
-        clearErrors()
-    }
     return (
+        <>
         <HomeLayout heading="Add Election">
         <div className="container">
             <Segment raised >
@@ -108,12 +111,17 @@ const AddElection = ({ fetchCandidates, error, candidates, addElection }) => {
             </Segment>
         </div>
         </HomeLayout>
+            {
+                requestingAddElection && <LoaderContainer/>
+            }
+        </>
     );
 };
 
 const mapStateToProps = state => ({
     error : state.errorStore,
-    candidates: state.candidateStore.candidates
+    candidates: state.candidateStore.candidates,
+    requestingAddElection : state.electionStore.requestingAddElection
 });
 
 const mapActionToProps = () => {

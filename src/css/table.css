@@ -1,0 +1,9 @@
+.table-container {
+    margin: 50px 70px;
+}
+.table-header{
+  font-size : 40px;
+    color: #174F40;
+    font-weight: bold;
+    text-align: center;
+}

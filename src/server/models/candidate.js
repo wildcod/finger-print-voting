@@ -22,10 +22,6 @@ const candidateSchema = mongoose.Schema({
     imageUrl : {
         type : String,
         required : true
-    },
-    photo : {
-        type : String,
-        required : true
     }
 });
 

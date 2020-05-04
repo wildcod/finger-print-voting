@@ -1,0 +1,36 @@
+.voter-profile-container{
+    padding: 20px;
+}
+
+.voter-profile-container > p{
+    font-weight: bold;
+    font-size: 30px;
+    padding: 10px;
+    color: #174F40;
+    text-align: center;
+}
+
+.voter-profile{
+    width: 73%;
+    margin: 0 auto;
+    justify-content: space-between;
+    display: flex;
+    border-bottom: 1px solid #174F40;
+}
+
+.voter-profile-list{
+   width: 50%;
+   font-size: 18px;
+   padding: 20px;
+   color: #174F40;
+   text-transform: capitalize;
+}
+
+.key > span{
+    font-weight: bold;
+}
+
+.transition{
+    left : 55% !important;
+    top : 7% !important;
+}

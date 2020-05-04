@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Election = require('../models/election');
+const VoterUser = require('../models/voterUser');
+const moment = require('moment')
 
 const addElection = (req, res, next) => {
     console.log('Data',req.body.data);
@@ -51,12 +53,24 @@ const castVote = (req, res, next) => {
         {_id : req.body.id},
         {
             $push : { 'voted_candidates' : req.body.candidateId },
-        })
+        },
+        )
         .exec()
         .then(elections => {
-            res.status(200).json({
-                message : "Cast Successfully",
-            })
+            VoterUser.findOneAndUpdate(
+                { _id : req.body.voterId },
+                {
+                    $push : { 'voted_elections' : req.body.id }
+                },
+                {new: true}
+                )
+                .exec()
+                .then(voter => {
+                    res.status(200).json({
+                        message : "Cast Successfully",
+                        voter : voter
+                    })
+                })
         })
         .catch(err => {
             res.status(500).json({
@@ -84,10 +98,30 @@ const getElection = (req, res, next) => {
 
 };
 
+const endElection = (req, res, next) => {
+    Election.find()
+        .populate('candidates')
+        .exec()
+        .then(result => {
+            const currentDate = moment().format('DD/MM/YYYY');
+            const closedElections = result.filter(e => moment(e.end_date).format('DD/MM/YYYY') === currentDate)
+            res.status(200).json({
+                message : "Get success",
+                election : closedElections
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                error : err
+            })
+        })
+};
+
 
 module.exports = {
     addElection,
     getAllElection,
     getElection,
-    castVote
+    castVote,
+    endElection
 };
