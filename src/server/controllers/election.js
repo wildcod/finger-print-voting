@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Election = require('../models/election');
 const VoterUser = require('../models/voterUser');
+const User = require('../models/user');
 const moment = require('moment')
 
 const addElection = (req, res, next) => {
-    console.log('Data',req.body.data);
     const { name, end_date , candidates, electionId} = req.body.data;
     const election = new Election({
         _id : mongoose.Types.ObjectId(),
@@ -16,7 +16,6 @@ const addElection = (req, res, next) => {
     });
     election.save()
         .then(result => {
-            console.log(result);
             res.status(200).json({
                 message : "Election is created"
             })
@@ -30,15 +29,32 @@ const addElection = (req, res, next) => {
 
 
 const getAllElection = (req, res, next) => {
+    const { voterId } = req.body;
         Election.find()
             .populate('candidates')
             .exec()
             .then(elections => {
-                const count = elections.length;
-                res.status(200).json({
-                    count : count,
-                    elections : elections
-                })
+                User.findById( { _id : voterId})
+                    .populate('voter')
+                    .exec()
+                    .then(users => {
+                        if(users.voter) {
+                            res.status(200).json({
+                                elections: elections,
+                                votedElections: users.voter.voted_elections
+                            })
+                        }else{
+                            res.status(200).json({
+                                elections: elections,
+                                votedElections: []
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            error : err
+                        })
+                    })
             })
             .catch(err => {
                 res.status(500).json({

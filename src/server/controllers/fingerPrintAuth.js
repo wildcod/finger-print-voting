@@ -3,7 +3,6 @@ const cp = require('child_process')
 const fs = require('fs');
 
 const voterAuthentication = async (req, res, next) => {
-    console.log(req.file);
     User.find({ username : req.body.username })
         .populate('voter')
         .exec()
@@ -16,7 +15,6 @@ const voterAuthentication = async (req, res, next) => {
                 pythonProcess.stderr.on('end', (data) => {
                     fs.readFile('output_pred.txt', 'utf8', function(err, data) {
                         if (err) throw err;
-                        console.log('OK: ' + 'output_pred.txt');
                         if(data){
                            return res.status(200).json({
                                 message: parseFloat(data) >= 85 ? 'verified' : 'Not verified',

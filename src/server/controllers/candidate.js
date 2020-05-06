@@ -13,7 +13,6 @@ const addCandidates = (req, res, next) => {
       });
       candidate.save()
           .then(result => {
-              console.log(result);
               res.status(200).json({
                   message : "Candidate is created"
               })

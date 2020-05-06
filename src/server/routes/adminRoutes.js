@@ -15,7 +15,7 @@ const voterAuthentication = require('../controllers/fingerPrintAuth').voterAuthe
 router.post('/add-candidate',upload.single('file') ,addCandidates);
 router.get('/get-candidates', getCandidates);
 router.post('/add-election',addElection);
-router.get('/get-elections',getAllElection);
+router.post('/get-elections',getAllElection);
 router.get('/get-end-elections',endElection);
 router.get('/get-election/:electionId',getElection);
 router.post('/cast-vote',castVote);

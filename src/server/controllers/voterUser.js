@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 
 const addVoter = (req, res, next) => {
     const { name, address, mobile, age } = JSON.parse(req.body.voter_data);
-    console.log(req.body.voter_data, req.files)
     const voter = new VoterUser({
         _id : new mongoose.Types.ObjectId(),
         name : name,
@@ -22,7 +21,6 @@ const addVoter = (req, res, next) => {
         .then(result => {
             const username = randomString();
             const password = generatePassword();
-            console.log(username, password);
             bcrypt.hash(password, 10, function(err, hash) {
                 if(err){
                     return res.status(500).json({
@@ -38,7 +36,6 @@ const addVoter = (req, res, next) => {
                     });
                     user.save()
                         .then(result => {
-                            console.log(result);
                             res.status(200).json({
                                 message : "Voter is created",
                                 username : result.username,
