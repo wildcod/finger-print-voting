@@ -17,7 +17,7 @@ const Result = ({ fetchEndElection , elections, role}) => {
         <Wrapper>
             <div className="election-cards-container">
                 {
-                    elections && elections.map((d, i) => (
+                    elections && elections.length ? elections.map((d, i) => (
                         <div className="election-card">
                             <div className="election-card-heading">
                                 <span>{d.name + ' Election'}</span>
@@ -36,6 +36,8 @@ const Result = ({ fetchEndElection , elections, role}) => {
                             </div>
                         </div>
                     ))
+                        :
+                        <p style={{marginTop : '20px'}}>No Result</p>
                 }
             </div>
         </Wrapper>

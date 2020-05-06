@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import '../../../css/adminProtalStyle/election-list.css'
-import {Link} from "react-router-dom";
 import moment from 'moment'
 import HomeLayout from "../../Layout/HomeLayout";
 import {fetchElectionList} from "../../../redux/actions/adminAction";
@@ -11,11 +10,12 @@ const ElectionList = ({
   fetchElectionList,
   electionList,
     role,
-   currentVoter,
+   voterId,
+    votedElections,
     history
 }) => {
     useEffect(() => {
-        fetchElectionList();
+        fetchElectionList(voterId);
     },[]);
 
     const Wrapper = (p) => role === 'admin' ? <HomeLayout heading="Elections">{p.children}</HomeLayout> :
@@ -23,14 +23,12 @@ const ElectionList = ({
     const currentDate = moment(moment()).format('DD/MM/YYYY');
 
     const checkCastVote = (id) => {
-        if(currentVoter && currentVoter.voted_elections && currentVoter.voted_elections.includes(id)){
+        if(votedElections && votedElections.length && votedElections.includes(id)){
             alert('Not Allowed')
         }else{
             history.push(`/voter/election/${id}`)
         }
     }
-
-    console.log(currentDate)
     return (
             <Wrapper>
                 <div className="election-cards-container">
@@ -70,7 +68,9 @@ const ElectionList = ({
 const mapStateToProps = state => ({
     electionList : state.electionStore.electionList,
     role : state.authStore.role,
+    voterId : state.authStore._id,
     currentVoter : state.voterStore.currentVoter,
+    votedElections : state.voterStore.votedElections,
 });
 
 

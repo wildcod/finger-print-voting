@@ -23,7 +23,6 @@ const Login = ({
     const handleSubmit = async (e) => {
            e.preventDefault();
            clearErrors();
-           console.log('submit', userName , password);
            await initiateLogin({username : userName,password})
     };
 

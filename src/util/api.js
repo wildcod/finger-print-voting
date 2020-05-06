@@ -16,10 +16,7 @@ const uris = {
 const apiPathBuilder = (routeName,params) => {
     const baseRoute = uris[routeName];
     const Params = params? `/${params}` : '';
-
-    const uri =  baseRoute + Params;
-    console.log(uri);
-    return uri
+    return baseRoute + Params;
 };
 
 export default apiPathBuilder;

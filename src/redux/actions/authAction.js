@@ -39,7 +39,6 @@ export const initiateLogin = ({username, password}) => async(dispatch) => {
 
 export const logout = () => async(dispatch) => {
     try{
-        console.log('Clear voter')
         dispatch({
             type : LOGOUT_SUCCESS
         })

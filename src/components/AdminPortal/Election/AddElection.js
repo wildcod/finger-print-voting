@@ -11,6 +11,7 @@ const options = [
     { key: 'one', text: '1', value: 1 },
     { key: 'two', text: '2', value: 2 },
     { key: 'three', text: '3', value: 3 },
+    { key: 'four', text: '4', value: 4 },
 ];
 
 const AddElection = ({ fetchCandidates, requestingAddElection, candidates, addElection }) => {

@@ -13,21 +13,28 @@ import {
     SET_VOTER,
     START_VOTER_FETCH,
     END_VOTER_FETCH,
-    SET_END_ELECTIONS
+    SET_END_ELECTIONS,
+    SET_VOTED_ELECTIONS
 } from '../types';
 import {returnErrors} from "./errorAction";
 import axios from "axios";
 import api from "../../util/api";
 
-export const fetchElectionList = () => async(dispatch) => {
+export const fetchElectionList = (voterId) => async(dispatch) => {
     try{
-        const { data } = await axios.get(api('getElections'));
+        const { data } = await axios.post(api('getElections'), { voterId : voterId});
         dispatch({
             type : ELECTION_LIST,
             payload : {
-                data : data.elections
+                data : data.elections,
             }
         })
+            dispatch({
+                type: SET_VOTED_ELECTIONS,
+                payload: {
+                    votedElections: data.votedElections,
+                }
+            })
     }catch(e){
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ELECTION_LIST_ERROR')
@@ -93,7 +100,6 @@ export const addCandidate = (formInputData) => async(dispatch) => {
             data: formInputData,
             headers: {'Content-Type': 'multipart/form-data' }
         });
-        console.log(res)
         dispatch({
             type : ADD_CANDIDATE_SUCCESS,
             payload : {
@@ -122,7 +128,6 @@ export const addVoter = (formInputData) => async(dispatch) => {
             data: formInputData,
             headers: {'Content-Type': 'multipart/form-data' }
         });
-        console.log(res)
         dispatch({
             type : ADD_VOTER_SUCCESS,
             payload : {
@@ -146,7 +151,6 @@ export const addElection = (electionData) => async(dispatch) => {
             }
         })
         const res = await axios.post(api('addElection'), { data : electionData})
-        console.log(res)
         dispatch({
             type : ADD_ELECTION_SUCCESS,
             payload : {
@@ -164,7 +168,6 @@ export const addElection = (electionData) => async(dispatch) => {
 export const fetchEndElection = () => async(dispatch) => {
     try{
         const { data } = await axios.get(api('getEndElections'))
-        console.log(data)
         dispatch({
             type : SET_END_ELECTIONS,
             payload : {

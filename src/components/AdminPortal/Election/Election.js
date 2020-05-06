@@ -5,6 +5,7 @@ import '../../../css/adminProtalStyle/election.css'
 import { fetchVoterDetails, castVote } from "../../../redux/actions/voterAction";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import LoaderContainer from "../../common/Loader";
 const notInclude = ['_id', 'finger_print', '__v', 'photo', 'voted_elections']
 
 const Election = ({
@@ -19,17 +20,20 @@ const Election = ({
 }) => {
     const { id } = useParams();
     const [ finger , setFinger ] = useState(null);
+    const [processing, setProcessing] = useState(false)
     const candidates = electionList.filter(f => f._id === id)[0].candidates
-     console.log(voterVerifiedStatus)
     const changeHandler = (e) => {
         setFinger(e.target.files[0]);
     }
     const submitHandler = async () => {
+        setProcessing(true)
+        document.body.classList.add('election-loader');
         const formInputData = new FormData();
-        console.log(username, finger)
         formInputData.set('username', username);
         formInputData.append('finger_print', finger);
        const res = await fetchVoterDetails(formInputData);
+       setProcessing(false)
+        document.body.classList.remove('election-loader');
        if(res.message === 'verified'){
            alert('Finger Print Match')
        }else{
@@ -48,6 +52,7 @@ const Election = ({
 
 
     return (
+        <>
         <div className="election-container">
                     <div className="election-card-1">
                     <div className="election-voter-image">
@@ -101,6 +106,10 @@ const Election = ({
                 </Card.Group>
                 </div>
         </div>
+            {
+                processing && <LoaderContainer/>
+            }
+        </>
     );
 };
 

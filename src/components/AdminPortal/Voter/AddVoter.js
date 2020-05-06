@@ -33,7 +33,6 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
         e.preventDefault();
         clearErrors();
         const formInputData = new FormData();
-        console.log(formData);
         const voterData = {
             name : formData.firstName + ' ' + formData.lastName,
             address : formData.address,

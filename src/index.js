@@ -37,6 +37,34 @@ const persistConfig = {
                 loggedIn : false
             },
             autoExpire: true
+        }),
+        expireReducer('electionStore', {
+            expireSeconds: 1800,
+            expiredState: {
+                electionList : null,
+                requestingAddElection : false,
+                closedElections : null
+            },
+            autoExpire: true
+        }),
+        expireReducer('candidateStore', {
+            expireSeconds: 1800,
+            expiredState: {
+                candidates : null,
+                requestingAddCandidate : false
+            },
+            autoExpire: true
+        }),
+        expireReducer('voterStore', {
+            expireSeconds: 1800,
+            expiredState: {
+                requestingAddVoter : false,
+                voters : null,
+                currentVoter : null,
+                voterVerifiedStatus : false,
+                votedElections : null
+            },
+            autoExpire: true
         })
     ]
 }

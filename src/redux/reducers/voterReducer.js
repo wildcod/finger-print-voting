@@ -1,7 +1,7 @@
 import {
     SET_VOTER,
     CLEAR_VOTER,
-    VOTER_ERROR, ADD_VOTER, SET_CUR_VOTER, CAST_VOTE
+    VOTER_ERROR, ADD_VOTER, SET_CUR_VOTER, CAST_VOTE, SET_VOTED_ELECTIONS
 } from '../types';
 
 
@@ -9,7 +9,8 @@ const initialState = {
     requestingAddVoter : false,
     voters : null,
     currentVoter : null,
-    voterVerifiedStatus : false
+    voterVerifiedStatus : false,
+    votedElections : null
 }
 
 export default function(state = initialState, action) {
@@ -33,11 +34,14 @@ export default function(state = initialState, action) {
         case CAST_VOTE:
             return {
                 ...state,
-                currentVoter :{
-                    ...state.currentVoter,
-                    voted_elections: [...state.currentVoter.voted_elections, ...action.payload['votedElections']],
-                },
+                currentVoter : null,
+                votedElections: action.payload['votedElections'],
                 voterVerifiedStatus : false
+            };
+        case SET_VOTED_ELECTIONS:
+            return {
+                ...state,
+                votedElections: action.payload['votedElections'],
             };
         case VOTER_ERROR:
         case CLEAR_VOTER:

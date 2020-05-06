@@ -23,10 +23,8 @@ const AddCandidate = ({ addCandidate, requestingAddCandidate}) => {
         const file = e.target.files[0];
         setImageFile(file);
         let reader = new FileReader();
-        console.log(formData);
         reader.onloadend = () => {
             setImagePath(reader.result)
-            console.log('25',reader.result)
         };
         reader.readAsDataURL(file)
     };

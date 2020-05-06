@@ -29,6 +29,7 @@ export const START_VOTER_FETCH =  'start_voter_fetch'
 export const END_VOTER_FETCH =  'end_voter_fetch'
 export const SET_CUR_VOTER =  'set_cur_voter'
 export const CAST_VOTE =  'cast_vote'
+export const SET_VOTED_ELECTIONS =  'set_voted_elections'
 
 // candidates
 export const SET_CANDIDATES =  'set_candidates'

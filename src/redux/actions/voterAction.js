@@ -11,7 +11,6 @@ export const fetchVoterDetails = (formInputData) => async(dispatch) => {
             data: formInputData,
             headers: {'Content-Type': 'multipart/form-data' }
         });
-        console.log(data)
         if(data && data.message === 'verified'){
             dispatch({
                 type : SET_CUR_VOTER,
@@ -37,7 +36,6 @@ export const castVote = (candidateId, electionId, voterId) => async (dispatch) =
                         id : electionId,
                         voterId : voterId
                     });
-        console.log('Response',data);
         dispatch({
             type : CAST_VOTE,
             payload : {

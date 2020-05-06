@@ -7,7 +7,6 @@ import {connect} from "react-redux";
 
 const ResultProfile = ({ elections }) => {
     const { id } = useParams();
-    console.log(id);
     const currentElection = elections.filter(e => e._id === id)[0]
     return (
         <div className="table-container">
