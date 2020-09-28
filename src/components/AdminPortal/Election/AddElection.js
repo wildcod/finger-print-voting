@@ -34,7 +34,7 @@ const AddElection = ({ fetchCandidates, requestingAddElection, candidates, addEl
     const handleSubmit = async (e) => {
            e.preventDefault();
            const electionData = {
-               name : electionName,
+               name : electionName.toLowerCase(),
                end_date : endDate ,
                candidates : candidatesName,
                electionId : electionId

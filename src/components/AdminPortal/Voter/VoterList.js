@@ -5,6 +5,7 @@ import HomeLayout from "../../Layout/HomeLayout";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {fetchVoters} from "../../../redux/actions/adminAction";
+import {capitalizeText} from "../../../util";
 
 const VoterList = ({ fetchVoters, voters, history }) => {
 
@@ -20,7 +21,7 @@ const VoterList = ({ fetchVoters, voters, history }) => {
         <HomeLayout heading="Voters">
             <Card.Group className="voter-container">
                 {
-                    voters && voters.map(d => (
+                    voters && voters.length ? voters.map(d => (
                         <Card className="voter-card" key={d._id} onClick={() => navigationHandler(d._id)}>
                             <Image
                                 wrapped
@@ -29,10 +30,10 @@ const VoterList = ({ fetchVoters, voters, history }) => {
                                 className="voter-card-image"
                             />
                             <Card.Content>
-                                <Card.Header>{d.name}</Card.Header>
+                                <Card.Header>{capitalizeText(d.name)}</Card.Header>
                             </Card.Content>
                         </Card>
-                    ))
+                    )) : <p style={{ textAlign: 'center', width: '100%'}}>No voters available</p>
                 }
             </Card.Group>
         </HomeLayout>

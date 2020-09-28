@@ -14,7 +14,7 @@ import {
     START_VOTER_FETCH,
     END_VOTER_FETCH,
     SET_END_ELECTIONS,
-    SET_VOTED_ELECTIONS
+    SET_VOTED_ELECTIONS, ADD_VOTER
 } from '../types';
 import {returnErrors} from "./errorAction";
 import axios from "axios";
@@ -89,7 +89,7 @@ export const fetchVoters = () => async(dispatch) => {
 export const addCandidate = (formInputData) => async(dispatch) => {
     try{
         dispatch({
-            type : REQUEST_ADD_CANDIDATE,
+            type : ADD_CANDIDATE,
             payload : {
                 status : true
             }
@@ -101,13 +101,19 @@ export const addCandidate = (formInputData) => async(dispatch) => {
             headers: {'Content-Type': 'multipart/form-data' }
         });
         dispatch({
-            type : ADD_CANDIDATE_SUCCESS,
+            type : ADD_CANDIDATE,
             payload : {
                 status : false
             }
         })
         return res;
     }catch(e){
+        dispatch({
+            type : ADD_CANDIDATE,
+            payload : {
+                status : false
+            }
+        })
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ADD_CANDIDATE_ERROR')
         );
@@ -117,7 +123,7 @@ export const addCandidate = (formInputData) => async(dispatch) => {
 export const addVoter = (formInputData) => async(dispatch) => {
     try{
         dispatch({
-            type : REQUEST_ADD_VOTER,
+            type : ADD_VOTER,
             payload : {
                 status : true
             }
@@ -129,13 +135,19 @@ export const addVoter = (formInputData) => async(dispatch) => {
             headers: {'Content-Type': 'multipart/form-data' }
         });
         dispatch({
-            type : ADD_VOTER_SUCCESS,
+            type : ADD_VOTER,
             payload : {
                 status : false
             }
         })
         return res;
     }catch(e){
+        dispatch({
+            type : ADD_VOTER,
+            payload : {
+                status : false
+            }
+        })
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ADD_VOTER_ERROR')
         );
@@ -145,20 +157,26 @@ export const addVoter = (formInputData) => async(dispatch) => {
 export const addElection = (electionData) => async(dispatch) => {
     try{
         dispatch({
-            type : REQUEST_ADD_ELECTION,
+            type : ADD_ELECTION,
             payload : {
                 status : true
             }
         })
         const res = await axios.post(api('addElection'), { data : electionData})
         dispatch({
-            type : ADD_ELECTION_SUCCESS,
+            type : ADD_ELECTION,
             payload : {
                 status : false
             }
         })
         return res
     }catch(e){
+        dispatch({
+            type : ADD_ELECTION,
+            payload : {
+                status : false
+            }
+        })
         dispatch(
             returnErrors(e.response.data, e.response.status, 'ADD_ELECTION_ERROR')
         );

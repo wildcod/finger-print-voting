@@ -1,7 +1,7 @@
 import {
     ADD_CANDIDATE,
     CLEAR_CANDIDATES,
-    SET_CANDIDATES
+    SET_CANDIDATES, UPDATE_LOADER_STATUS
 } from '../types';
 
 

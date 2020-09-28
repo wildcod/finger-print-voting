@@ -5,6 +5,7 @@ import HomeLayout from "../../Layout/HomeLayout";
 import {fetchElectionList} from "../../../redux/actions/adminAction";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import {capitalizeText} from "../../../util";
 
 const ElectionList = ({
   fetchElectionList,
@@ -33,10 +34,10 @@ const ElectionList = ({
             <Wrapper>
                 <div className="election-cards-container">
                     {
-                        electionList && electionList.map((d, i) => (
+                        electionList && electionList.length ? electionList.map((d, i) => (
                             <div className="election-card">
                                 <div className="election-card-heading">
-                                    <span>{d.name + ' Election'}</span>
+                                    <span>{capitalizeText(d.name) + ' Election'}</span>
                                 </div>
                                 <div className="election-card-time">
                                     <span>End Date</span>
@@ -44,20 +45,20 @@ const ElectionList = ({
                                 </div>
                                 <div className="election-status">
                                     {
-                                        currentDate === moment(d.end_date).format('DD/MM/YYYY')?
+                                        currentDate >= moment(d.end_date).format('DD/MM/YYYY')?
                                                  <span style={{ color : 'red'}}>CLOSED</span>
                                                 :<span style={{ color : '#2BBA44' }}>OPEN</span>
                                     }
                                 </div>
                                 {
-                                    currentDate !== moment(d.end_date).format('DD/MM/YYYY') ?
-                                        <div className="election-card-see" onClick={() => checkCastVote(d._id)}>
-                                                <p style={{ color : '#0000EE'}}>See more</p>
+                                    currentDate >= moment(d.end_date).format('DD/MM/YYYY') ?
+                                         null
+                                        :  <div className="election-card-see" onClick={() => checkCastVote(d._id)}>
+                                            <p style={{ color : '#0000EE'}}>See more</p>
                                         </div>
-                                        : null
                                 }
                             </div>
-                        ))
+                        )) : <p style={{ textAlign: 'center', width: '100%'}}>No elections available</p>
                     }
                 </div>
             </Wrapper>

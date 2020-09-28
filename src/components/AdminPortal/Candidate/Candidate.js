@@ -5,6 +5,7 @@ import HomeLayout from "../../Layout/HomeLayout";
 import {fetchCandidates} from "../../../redux/actions/adminAction";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import {capitalizeText} from "../../../util";
 
 const Candidate = ({ candidates, fetchCandidates }) => {
     useEffect(() => {
@@ -14,7 +15,7 @@ const Candidate = ({ candidates, fetchCandidates }) => {
         <HomeLayout heading="Candidates">
             <Card.Group className="candidate-container">
                 {
-                    candidates && candidates.length > 0 && (
+                    candidates && candidates.length > 0 ? (
                         candidates.map(d => (
                             <Card className="candidate-card" key={d._id}>
                                 <Image
@@ -24,12 +25,12 @@ const Candidate = ({ candidates, fetchCandidates }) => {
                                     className="candidate-card-image"
                                 />
                                 <Card.Content>
-                                    <Card.Header>{d.name}</Card.Header>
+                                    <Card.Header>{capitalizeText(d.name)}</Card.Header>
                                     <Card.Description>{d.party_name}</Card.Description>
                                 </Card.Content>
                             </Card>
                         ))
-                    )
+                    ) : <p style={{ textAlign: 'center', width: '100%'}}>No candidates available</p>
                 }
             </Card.Group>
         </HomeLayout>

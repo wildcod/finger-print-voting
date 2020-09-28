@@ -3,10 +3,11 @@ const VoterUser = require('../models/voterUser');
 const randomString = require('../utiil/util').randomString;
 const generatePassword = require('../utiil/util').generatePassword;
 const User = require('../models/user');
+const sendEmail = require('../utiil/email')
 const bcrypt = require('bcrypt');
 
-const addVoter = (req, res, next) => {
-    const { name, address, mobile, age } = JSON.parse(req.body.voter_data);
+const addVoter = async (req, res, next) => {
+    const { name, address, mobile, age, email } = JSON.parse(req.body.voter_data);
     const voter = new VoterUser({
         _id : new mongoose.Types.ObjectId(),
         name : name,
@@ -14,7 +15,8 @@ const addVoter = (req, res, next) => {
         mobile : mobile,
         age : age,
         photo : req.files[0].originalname,
-        finger_print: req.files[1].originalname
+        finger_print: req.files[1].originalname,
+        email: email
     });
 
     voter.save()
@@ -28,21 +30,20 @@ const addVoter = (req, res, next) => {
                     })
                 }else {
                     const user = new User({
-                        _id : mongoose.Types.ObjectId(),
+                        _id : new mongoose.Types.ObjectId(),
                         username : username,
                         password : hash,
                         role : 'voter',
                         voter : result._id
                     });
+                    console.log('DATA', {username, password, user})
                     user.save()
                         .then(result => {
-                            res.status(200).json({
-                                message : "Voter is created",
-                                username : result.username,
-                                password : password
-                            })
+                            console.log('AFTER_SAVE', result)
+                           return sendEmail(req,res,username,password,email)
                         })
                         .catch(err => {
+                            console.log('AFTER_SAVE', err)
                             res.status(500).json({
                                 error : err
                             })
@@ -51,6 +52,7 @@ const addVoter = (req, res, next) => {
             });
         })
         .catch(err => {
+            console.log('AFTER_SAVE_OUTSIDE', err)
             res.status(500).json({
                 error : err
             })

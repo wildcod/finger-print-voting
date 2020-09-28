@@ -39,3 +39,6 @@ export const REQUEST_ADD_CANDIDATE =  'request_add_candidate'
 export const ADD_CANDIDATE_SUCCESS =  'add_candidate_success'
 export const SET_END_ELECTIONS =  'set_end_elections'
 
+//loader
+export const UPDATE_LOADER_STATUS = 'update_loader_status'
+

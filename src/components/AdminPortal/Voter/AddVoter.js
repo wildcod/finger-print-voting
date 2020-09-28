@@ -9,7 +9,8 @@ import {connect} from "react-redux";
 import LoaderContainer from "../../common/Loader";
 
 
-const AddVoter = ({ addVoter, requestingAddVoter}) => {
+const AddVoter = ({ addVoter, isLoader}) => {
+    const [imagePath , setImagePath ] = useState(null);
     const [formData , setFormData ] = useState({
         firstName : null,
         lastName : null,
@@ -17,8 +18,22 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
         mobile : null,
         age : null,
         photo : null,
+        email: null,
         fingerPrint : null
     });
+
+    const handleImagePath = (e) => {
+        const file = e.target.files[0];
+        setFormData({
+            ...formData,
+            [e.target.name]: file
+        })
+        let reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePath(reader.result)
+        };
+        reader.readAsDataURL(file)
+    };
 
     const inputChangeHandler = (e) => {
         const { name, value, files } = e.target;
@@ -34,10 +49,11 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
         clearErrors();
         const formInputData = new FormData();
         const voterData = {
-            name : formData.firstName + ' ' + formData.lastName,
+            name : formData.firstName.toLowerCase() + ' ' + formData.lastName.toLowerCase(),
             address : formData.address,
             mobile : formData.mobile,
-            age : formData.age
+            age : formData.age,
+            email: formData.email
         };
         formInputData.set('voter_data', JSON.stringify(voterData));
         formInputData.append('image', formData.photo);
@@ -89,7 +105,7 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
                           type='file'
                           label='Upload Photo'
                           name="photo"
-                          onChange={inputChangeHandler}
+                          onChange={handleImagePath}
                           required
                         />
                     </Form.Group>
@@ -111,6 +127,16 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
                             required
                         />
                     </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input
+                            label='Email'
+                            placeholder='email'
+                            name="email"
+                            value={formData.email}
+                            onChange={inputChangeHandler}
+                            required
+                        />
+                    </Form.Group>
                     <Form.Group>
                         <Form.Input
                             label='Finger Print'
@@ -120,7 +146,9 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
                             required
                         />
                         <div className="finger-print-container">
-
+                            {
+                                imagePath && <img src={imagePath} width="100"/>
+                            }
                         </div>
                     </Form.Group>
                     <Button type='submit'
@@ -131,7 +159,7 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
         </div>
         </HomeLayout>
             {
-                requestingAddVoter && <LoaderContainer/>
+                isLoader ? <LoaderContainer/> : null
             }
         </>
     );
@@ -139,7 +167,7 @@ const AddVoter = ({ addVoter, requestingAddVoter}) => {
 
 const mapStateToProps = state => ({
     error : state.errorStore,
-    requestingAddVoter : state.voterStore.requestingAddVoter
+    isLoader : state.voterStore.isLoader
 });
 
 const mapActionToProps = () => {

@@ -38,7 +38,7 @@ const TableExampleBasic = ({ election }) => {
                             <Table.Cell>{d.partyName}</Table.Cell>
                             <Table.Cell>{d.votes}</Table.Cell>
                             <Table.Cell>{election.voted_candidates.length}</Table.Cell>
-                            <Table.Cell>{d.voterPercentage + '%'}</Table.Cell>
+                            <Table.Cell>{d.voterPercentage? d.voterPercentage + '%' : 0}</Table.Cell>
                         </Table.Row>
                     ))
                 }

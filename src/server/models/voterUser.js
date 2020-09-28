@@ -25,6 +25,11 @@ const voterUserSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    email : {
+        type : String,
+        required : true,
+        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    },
     finger_print : {
         type : String,
         required : true

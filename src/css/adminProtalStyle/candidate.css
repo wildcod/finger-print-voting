@@ -9,3 +9,8 @@
 .candidate-card-image {
     width: 180px !important;
 }
+
+.candidate-card-image > img{
+    height: 180px !important;
+    width: 100%;
+}

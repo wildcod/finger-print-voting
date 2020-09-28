@@ -42,7 +42,7 @@ const AddCandidate = ({ addCandidate, requestingAddCandidate}) => {
         e.preventDefault();
         const formInputData = new FormData();
         const candidateData = {
-            name : formData.firstName + ' ' + formData.lastName,
+            name : formData.firstName.toLowerCase() + ' ' + formData.lastName.toLowerCase(),
             address : formData.address,
             partyName : formData.partyName,
             age : formData.age

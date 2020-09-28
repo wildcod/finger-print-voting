@@ -120,7 +120,7 @@ const endElection = (req, res, next) => {
         .exec()
         .then(result => {
             const currentDate = moment().format('DD/MM/YYYY');
-            const closedElections = result.filter(e => moment(e.end_date).format('DD/MM/YYYY') === currentDate)
+            const closedElections = result.filter(e => moment(e.end_date).format('DD/MM/YYYY') <= currentDate)
             res.status(200).json({
                 message : "Get success",
                 election : closedElections
