@@ -7,17 +7,20 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {capitalizeText} from "../../../util";
 
-const Candidate = ({ candidates, fetchCandidates }) => {
+const Candidate = ({ candidates, fetchCandidates, history }) => {
     useEffect(() => {
         fetchCandidates();
     },[])
+    const navigationHandler = (id) => {
+        history.push(`/candidate-list/profile/${id}`)
+    }
     return (
         <HomeLayout heading="Candidates">
             <Card.Group className="candidate-container">
                 {
                     candidates && candidates.length > 0 ? (
                         candidates.map(d => (
-                            <Card className="candidate-card" key={d._id}>
+                            <Card className="candidate-card" key={d._id} onClick={() => navigationHandler(d._id)}>
                                 <Image
                                     wrapped
                                     src={d.imageUrl.split('/')[1]}

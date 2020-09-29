@@ -4,6 +4,7 @@
 
 .candidate-card{
     width: min-content !important;
+    cursor: pointer;
 }
 
 .candidate-card-image {

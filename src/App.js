@@ -29,6 +29,7 @@ const App = () => {
                 <ProtectedRoutes path="/addElection"  component={AddElection} />
                 <ProtectedRoutes exact path="/voter-list"  component={VoterList}/>
                 <ProtectedRoutes path="/voter-list/profile/:id"  component={Profile}/>
+                <ProtectedRoutes path="/candidate-list/profile/:id"  component={Profile}/>
                 <ProtectedRoutes path="/candidate-list"  component={Candidate} />
                 <ProtectedRoutes path="/result/:id"  component={ResultProfile} />
                 <Route component={NotFound} />
