@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import LoaderContainer from "../../common/Loader";
 
 
-const AddVoter = ({ addVoter, isLoader}) => {
+const AddVoter = ({ addVoter, requestingAddVoter}) => {
     const [imagePath , setImagePath ] = useState(null);
     const [formData , setFormData ] = useState({
         firstName : null,
@@ -159,7 +159,7 @@ const AddVoter = ({ addVoter, isLoader}) => {
         </div>
         </HomeLayout>
             {
-                isLoader ? <LoaderContainer/> : null
+                requestingAddVoter ? <LoaderContainer/> : null
             }
         </>
     );
@@ -167,7 +167,7 @@ const AddVoter = ({ addVoter, isLoader}) => {
 
 const mapStateToProps = state => ({
     error : state.errorStore,
-    isLoader : state.voterStore.isLoader
+    requestingAddVoter : state.voterStore.requestingAddVoter
 });
 
 const mapActionToProps = () => {

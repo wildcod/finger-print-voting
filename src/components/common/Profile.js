@@ -21,7 +21,7 @@ const Profile = (props) => {
     return (
         <HomeLayout>
             <div className="voter-profile-container">
-                <p>Voter Profile</p>
+                <p>{props.location.pathname.indexOf('voter-list') >= 0 ? 'Voter Profile' : 'Candidate Profile'}</p>
                 {
                    voter && Object.entries(voter[0]).map(d => {
                        return  !exclude.includes(d[0]) ? (<div className="voter-profile">

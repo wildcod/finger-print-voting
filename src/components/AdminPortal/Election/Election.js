@@ -58,7 +58,7 @@ const Election = ({
                     <div className="election-voter-image">
                         <input type="file" name="finger_print" onChange={changeHandler}/>
                     </div>
-                    <div className="election-scanner" onClick={submitHandler}>
+                    <div className={`election-scanner ${finger ? 'enable' : ''}`} onClick={submitHandler}>
                         Scan Finger
                     </div>
                     <div className="election-voter-info">

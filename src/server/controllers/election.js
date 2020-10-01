@@ -119,8 +119,8 @@ const endElection = (req, res, next) => {
         .populate('candidates')
         .exec()
         .then(result => {
-            const currentDate = moment().format('DD/MM/YYYY');
-            const closedElections = result.filter(e => moment(e.end_date).format('DD/MM/YYYY') <= currentDate)
+            const currentDate = moment().format('X');
+            const closedElections = result.filter(e => moment(e.end_date).format('X') <= currentDate)
             res.status(200).json({
                 message : "Get success",
                 election : closedElections

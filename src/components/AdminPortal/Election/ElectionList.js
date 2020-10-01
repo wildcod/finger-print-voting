@@ -21,7 +21,7 @@ const ElectionList = ({
 
     const Wrapper = (p) => role === 'admin' ? <HomeLayout heading="Elections">{p.children}</HomeLayout> :
                            <><p className="election-header">Available Elections</p>{p.children}</>
-    const currentDate = moment(moment()).format('DD/MM/YYYY');
+    const currentDate = moment(moment()).format('X');
 
     const checkCastVote = (id) => {
         if(votedElections && votedElections.length && votedElections.includes(id)){
@@ -45,13 +45,13 @@ const ElectionList = ({
                                 </div>
                                 <div className="election-status">
                                     {
-                                        currentDate >= moment(d.end_date).format('DD/MM/YYYY')?
+                                        currentDate >= moment(d.end_date).format('X')?
                                                  <span style={{ color : 'red'}}>CLOSED</span>
                                                 :<span style={{ color : '#2BBA44' }}>OPEN</span>
                                     }
                                 </div>
                                 {
-                                    currentDate >= moment(d.end_date).format('DD/MM/YYYY') ?
+                                    currentDate >= moment(d.end_date).format('X') ?
                                          null
                                         :  <div className="election-card-see" onClick={() => checkCastVote(d._id)}>
                                             <p style={{ color : '#0000EE'}}>See more</p>
