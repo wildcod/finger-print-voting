@@ -18,7 +18,7 @@ import {
 } from '../types';
 import {returnErrors} from "./errorAction";
 import axios from "axios";
-import api from "../../util/api";
+import api from "../../utils/api";
 
 export const fetchElectionList = (voterId) => async(dispatch) => {
     try{

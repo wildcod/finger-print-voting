@@ -1,7 +1,7 @@
 import {SET_VOTER, CLEAR_VOTER, SET_CUR_VOTER, CAST_VOTE} from '../types';
 import {returnErrors} from "./errorAction";
 import axios from "axios";
-import api from "../../util/api";
+import api from "../../utils/api";
 
 export const fetchVoterDetails = (formInputData) => async(dispatch) => {
     try{

@@ -5,7 +5,6 @@
 /.pnp
 .pnp.js
 /src/server/node_modules
-/src/server/package.json
 /src/server/nodemon.json
 
 # testing

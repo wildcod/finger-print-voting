@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const VoterUser = require('../models/voterUser');
-const randomString = require('../utiil/util').randomString;
-const generatePassword = require('../utiil/util').generatePassword;
+const randomString = require('../utils').randomString;
+const generatePassword = require('../utils').generatePassword;
 const User = require('../models/user');
-const sendEmail = require('../utiil/email')
+const sendEmail = require('../utils/email')
 const bcrypt = require('bcrypt');
 
 const addVoter = async (req, res, next) => {
